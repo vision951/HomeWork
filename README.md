@@ -19,6 +19,23 @@
 3. Активация виртуального окружения:
     ```
    poetry shell
+4. Установка линтеров flake8, mypy, black, isort
+   ```
+   poetry add flake8 --group lint
+   poetry add mypy --group lint
+   poetry add black --group lint
+   poetry add isort --group lint
+
+##  Проверки и тестирование
+
+Проект проходит следующие виды проверок:
+
+### 1. Статическая проверка типов (mypy)
+      ```
+      poetry run mypy src/
+### 2. Проверка стилея(flake8)
+      ```
+      poetry run flake8 src/
 
 ## Примеры работы функций
 ### Фильтрация выполненных транзакций
