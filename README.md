@@ -25,11 +25,13 @@
 executed = filter_by_state(transactions, state="EXECUTED")
 
 ### Сортировка по дате (новые сначала)
-sorted_transactions = sort_by_date(transactions)
+- sorted_transactions = sort_by_date(transactions)
 
-### Маскировка данных
-masked_card = mask_number("Visa Platinum 1234567890123456") # Visa Platinum 1234 56** **** 3456
-masked_account = mask_number("Счет 1234567890123456")        # Счет **3456
+### Маскировка карты → "Visa Platinum 1234 56** **** 3456"
+masked_card = mask_number("Visa Platinum 1234567890123456") 
 
-### Форматирование даты
-formatted_date = get_date("2024-03-11T02:26:18.671407")     # 11.03.2024
+### Маскировка счета → "Счет **3456"
+account_masked = mask_number("Счет 1234567890123456")
+
+### Форматирование даты → 1.03.2024
+formatted_date = get_date("2024-03-11T02:26:18.671407")
