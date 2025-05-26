@@ -28,5 +28,5 @@ def get_date(data_time: str) -> str:
     return f"{day}.{month}.{year}"
 
 
-print(mask_number(input("Введите данные")))
-print(get_date("2024-03-11T02:26:18.671407"))
+# print(mask_number(input("Введите данные")))
+# print(get_date("2024-03-11T02:26:18.671407"))
