@@ -1,3 +1,5 @@
+from datetime import datetime
+
 from src.masks import get_mask_account, get_mask_card_number
 
 
@@ -42,13 +44,22 @@ def mask_number(account_details: str) -> str:
     except ValueError as e:
         raise ValueError(f"Ошибка маскировки: {e}")
 
+
 def get_date(data_time: str) -> str:
     """Функия переформатирования даты"""
-    # Разделяем строку по символу T
-    date_part = data_time.split("T")[0]
-    # Разделяем дату по дефисам
-    year, month, day = date_part.split("-")
-    # Формируем нужный формат
-    return f"{day}.{month}.{year}"
+
+    try:
+        # Разделяем строку по символу T
+        date_part = data_time.split("T")[0]
+        # Парсим дату по формату ГГГГ-ММ-ДД
+        date_obj = datetime.strptime(date_part, "%Y-%m-%d")
+        # Формируем нужный формат
+        return date_obj.strftime("%d.%m.%Y")
+
+    except (IndexError, ValueError):
+        #  Выдаем информацию об ошибке
+        raise ValueError(f"Некорректный формат даты: {data_time}")
+
+
 
 
