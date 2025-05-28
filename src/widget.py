@@ -1,4 +1,4 @@
-from masks import get_mask_account, get_mask_card_number
+from src.masks import get_mask_account, get_mask_card_number
 
 
 def mask_number(account_details: str) -> str:
@@ -26,7 +26,3 @@ def get_date(data_time: str) -> str:
     year, month, day = date_part.split("-")
     # Формируем нужный формат
     return f"{day}.{month}.{year}"
-
-
-print(mask_number(input("Введите данные")))
-print(get_date("2024-03-11T02:26:18.671407"))

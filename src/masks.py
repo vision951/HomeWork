@@ -25,7 +25,3 @@ def get_mask_account(account_number: str) -> str:
         raise ValueError("Номер карты должен содержать только цифры")
 
     return f"**{account_number[-4:]}"
-
-
-# print(get_mask_card_number(input("Введите номер карты")))
-# print(get_mask_account(input("Введите номер счета")))
