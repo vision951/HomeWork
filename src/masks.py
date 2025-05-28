@@ -22,7 +22,7 @@ def get_mask_account(account_number: str) -> str:
 
     # Проверяем, что номер состоит из цифр
     if not account_number.isdigit():
-        raise ValueError("Номер карты должен содержать только цифры")
+        raise ValueError("Номер счета должен содержать только цифры")
 
     if len(account_number) < 6:
         raise ValueError("Некорректная длина номера счета")
