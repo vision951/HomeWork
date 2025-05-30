@@ -1,3 +1,8 @@
+from datetime import datetime
+
+from src.widget import get_date
+
+
 def filter_by_state(transactions: list[dict], state: str = "EXECUTED") -> list[dict]:
     """Функция фильтрации словарей по ключу"""
     filtered_list = []
@@ -16,4 +21,13 @@ def filter_by_state(transactions: list[dict], state: str = "EXECUTED") -> list[d
 
 def sort_by_date(transactions: list[dict], reverse_sort: bool = True) -> list[dict]:
     """Сортирует список транзакций по дате"""
-    return sorted(transactions, key=lambda x: x["date"].split("T")[0], reverse=reverse_sort)
+    try:
+        return sorted(
+            transactions,
+            key=lambda x: datetime.strptime(get_date(x["date"]), "%d.%m.%Y"),
+            reverse=reverse_sort
+        )
+    except KeyError as e:
+        raise KeyError(f"Транзакция не содержит ключа 'date': {e}")
+    except ValueError as e:
+        raise ValueError(f"Ошибка в формате даты: {e}")
