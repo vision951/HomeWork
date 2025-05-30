@@ -2,8 +2,8 @@ from datetime import datetime
 
 from src.masks import get_mask_account, get_mask_card_number
 
-
 VALID_CARD_TYPES = {"visa", "mastercard", "maestro", "мир"}
+
 
 def mask_number(account_details: str) -> str:
     """Функция маскирует номер счета или карты в зависимости от типа"""
@@ -59,7 +59,3 @@ def get_date(data_time: str) -> str:
     except (IndexError, ValueError):
         #  Выдаем информацию об ошибке
         raise ValueError(f"Некорректный формат даты: {data_time}")
-
-
-
-

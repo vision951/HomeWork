@@ -23,11 +23,10 @@ def sort_by_date(transactions: list[dict], reverse_sort: bool = True) -> list[di
     """Сортирует список транзакций по дате"""
     try:
         return sorted(
-            transactions,
-            key=lambda x: datetime.strptime(get_date(x["date"]), "%d.%m.%Y"),
-            reverse=reverse_sort
+            transactions, key=lambda x: datetime.strptime(get_date(x["date"]), "%d.%m.%Y"), reverse=reverse_sort
         )
     except KeyError as e:
         raise KeyError(f"Транзакция не содержит ключа 'date': {e}")
     except ValueError as e:
+
         raise ValueError(f"Ошибка в формате даты: {e}")
