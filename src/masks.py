@@ -10,7 +10,7 @@ def get_mask_card_number(number_card: str) -> str:
         raise ValueError("Некорректная длина номера карты")
 
     # Разделеям номер карты по блокам из 4 цифр
-    blocks_number = [number_card[i:i + 4] for i in range(0, len(number_card), 4)]
+    blocks_number = [number_card[i: i + 4] for i in range(0, len(number_card), 4)]
 
     # Маскируем блоки
     masked_blocks = [blocks_number[0], blocks_number[1][:2] + "**", "****", blocks_number[-1]]
@@ -22,6 +22,9 @@ def get_mask_account(account_number: str) -> str:
 
     # Проверяем, что номер состоит из цифр
     if not account_number.isdigit():
-        raise ValueError("Номер карты должен содержать только цифры")
+        raise ValueError("Номер счета должен содержать только цифры")
+
+    if len(account_number) < 6:
+        raise ValueError("Некорректная длина номера счета")
 
     return f"**{account_number[-4:]}"
