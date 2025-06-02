@@ -1,5 +1,5 @@
 import pytest
-from src.generators import filter_by_currency, transaction_descriptions
+from src.generators import filter_by_currency, transaction_descriptions, card_number_generator
 
 from tests.conftest import gen_transactions, usd_transactions, eur_transactions
 
@@ -54,6 +54,50 @@ def test_transaction_descriptions_missing_key():
     assert next(generator) == "Описание отсутствует"
     assert next(generator) == "Описание отсутствует"
     assert next(generator) == "Описание отсутствует"
+
+import pytest
+
+@pytest.mark.parametrize("start,end,expected", [
+                                                (1, 1, ["0000 0000 0000 0001"]),
+                                                (1, 3, [
+                                                    "0000 0000 0000 0001",
+                                                    "0000 0000 0000 0002",
+                                                    "0000 0000 0000 0003"
+                                                ]),
+                                                (9999999999999998, 9999999999999999, ["9999 9999 9999 9998",
+                                                                                      "9999 9999 9999 9999",]),
+                                                ])
+def test_card_number_generator(start, end, expected):
+    """Проверка функции при получение корректных данных"""
+    assert list(card_number_generator(start, end)) == expected
+
+
+def test_card_number_generator_format():
+    """Проверка корректности форматирования вывода вывода"""
+    num = next(card_number_generator(1234567812345678, 1234567812345678))
+    assert num == "1234 5678 1234 5678"
+    assert len(num) == 19
+
+
+def test_card_number_generator_negative_numbers():
+    """Проверка функции если получили отрицательные числа"""
+    with pytest.raises(ValueError):
+        list(card_number_generator(-1, 5))
+
+    with pytest.raises(ValueError):
+        list(card_number_generator(1, -5))
+
+
+def test_card_number_generator_invalid_final_nums():
+    """Проверка если максимальное число превышает диапазон"""
+    with pytest.raises(ValueError):
+        list(card_number_generator(1, 10000000000000000))
+
+
+def test_card_number_generator_invalid_range():
+    """Проверка когда start > end"""
+    with pytest.raises(ValueError):
+        list(card_number_generator(10, 5))
 
 
 
