@@ -75,19 +75,22 @@ def transactions_same_date():
 
 
 @pytest.fixture
-def currency_transactions():
+def gen_transactions():
     return [
         {
         "id": 939719570,
-        "operationAmount": {"amount": "9824.07", "currency": {"code": "USD"}}
+        "operationAmount": {"amount": "9824.07", "currency": {"code": "USD"}},
+        "description": "Перевод организации"
     },
     {
         "id": 142264268,
-        "operationAmount": {"amount": "79114.93", "currency": {"code": "USD"}}
+        "operationAmount": {"amount": "79114.93", "currency": {"code": "USD"}},
+        "description": "Перевод со счета на счет"
     },
     {
         "id": 873106923,
-        "operationAmount": {"amount": "500.00", "currency": {"code": "EUR"}}
+        "operationAmount": {"amount": "500.00", "currency": {"code": "EUR"}},
+        "description": "Покупка в магазине"
     }
     ]
 
@@ -96,11 +99,13 @@ def usd_transactions():
     return [
         {
             "id": 939719570,
-            "operationAmount": {"amount": "9824.07", "currency": {"code": "USD"}}
+            "operationAmount": {"amount": "9824.07", "currency": {"code": "USD"}},
+            "description": "Перевод организации"
         },
         {
             "id": 142264268,
-            "operationAmount": {"amount": "79114.93", "currency": {"code": "USD"}}
+            "operationAmount": {"amount": "79114.93", "currency": {"code": "USD"}},
+            "description": "Перевод со счета на счет"
         }
         ]
 
@@ -110,6 +115,8 @@ def eur_transactions():
     return [
         {
             "id": 873106923,
-            "operationAmount": {"amount": "500.00", "currency": {"code": "EUR"}}
+            "operationAmount": {"amount": "500.00", "currency": {"code": "EUR"}},
+             "description": "Покупка в магазине"
         }
     ]
+
