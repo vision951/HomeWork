@@ -6,3 +6,9 @@ def filter_by_currency(transactions: list[dict], currency_code: str) -> filter:
     )
 
 
+def transaction_descriptions(transactions: list[dict]):
+    """Функция возвращает описание операции"""
+    for transaction in transactions:
+        yield transaction.get("description", "Описание отсутствует")
+
+
