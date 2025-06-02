@@ -72,3 +72,44 @@ def transactions_same_date():
         {"date": "2023-01-01T11:00:00", "id": 2},
         {"date": "2023-01-01T10:00:00", "id": 3},
     ]
+
+
+@pytest.fixture
+def currency_transactions():
+    return [
+        {
+        "id": 939719570,
+        "operationAmount": {"amount": "9824.07", "currency": {"code": "USD"}}
+    },
+    {
+        "id": 142264268,
+        "operationAmount": {"amount": "79114.93", "currency": {"code": "USD"}}
+    },
+    {
+        "id": 873106923,
+        "operationAmount": {"amount": "500.00", "currency": {"code": "EUR"}}
+    }
+    ]
+
+@pytest.fixture
+def usd_transactions():
+    return [
+        {
+            "id": 939719570,
+            "operationAmount": {"amount": "9824.07", "currency": {"code": "USD"}}
+        },
+        {
+            "id": 142264268,
+            "operationAmount": {"amount": "79114.93", "currency": {"code": "USD"}}
+        }
+        ]
+
+
+@pytest.fixture
+def eur_transactions():
+    return [
+        {
+            "id": 873106923,
+            "operationAmount": {"amount": "500.00", "currency": {"code": "EUR"}}
+        }
+    ]
