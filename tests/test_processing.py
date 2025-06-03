@@ -1,9 +1,6 @@
 import pytest
 
 from src.processing import filter_by_state, sort_by_date
-from tests.conftest import (expected_executed, expected_canceled,
-                            transactions_example, transactions_not_state, \
-                             transactions_same_date)
 
 
 def test_filter_by_state_executed(transactions_example, expected_executed):
@@ -21,13 +18,18 @@ def test_filter_by_not_state(transactions_not_state):
     assert filter_by_state(transactions_not_state) == []
 
 
-@pytest.mark.parametrize("state, expected_ids", [("EXECUTED", [1, 2]),
-                                                ("CANCELED", [3, 4]),
-                                                ("PENDING", [5]),
-                                                ("APPROVED", [6]),
-                                                ("UNKNOWN", []),  # несуществующий
-                                                ("EXECUTE", []),  # похожее слово           # Часть слова
-                                                ("PEND", [])])    # неполное слово
+@pytest.mark.parametrize(
+    "state, expected_ids",
+    [
+        ("EXECUTED", [1, 2]),
+        ("CANCELED", [3, 4]),
+        ("PENDING", [5]),
+        ("APPROVED", [6]),
+        ("UNKNOWN", []),  # несуществующий
+        ("EXECUTE", []),  # похожее слово           # Часть слова
+        ("PEND", []),
+    ],
+)  # неполное слово
 def test_filter_by_state(transactions_example, state, expected_ids):
     """Параметризованный тест фильтрации по разным статусам"""
     result = filter_by_state(transactions_example, state)
@@ -65,6 +67,3 @@ def test_sort_by_date_missing_date_key():
     """Проверка обработки отсутствия ключа date"""
     with pytest.raises(KeyError):
         sort_by_date([{"id": 1}])
-
-
-
