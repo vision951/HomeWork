@@ -1,0 +1,103 @@
+import pytest
+
+from src.generators import card_number_generator, filter_by_currency, transaction_descriptions
+
+
+def test_filter_by_currency_usd(gen_transactions, usd_transactions):
+    """Проверка при получение  корректных значения для 'USD'"""
+    assert list(filter_by_currency(gen_transactions, "USD")) == usd_transactions
+
+
+def test_filter_by_currency_eur(gen_transactions, eur_transactions):
+    """Проверка при получение  корректных значения для 'EUR'"""
+    assert list(filter_by_currency(gen_transactions, "EUR")) == eur_transactions
+
+
+def test_filter_by_currency_empty_list():
+    """Проверка на пустой список"""
+    assert list(filter_by_currency([], "USD")) == []
+
+
+@pytest.mark.parametrize(
+    "currency_code, expected", [("RUB", []), ("BYR", []), ("KZT", []), ("", [])]
+)  # отсутствует валюта
+def test_filter_by_invalid_currency(gen_transactions, currency_code, expected):
+    """Проверка функции при отсутсвие необходимых валют или его отсутсвии"""
+    assert list(filter_by_currency(gen_transactions, currency_code)) == expected
+
+
+def test_transaction_descriptions(gen_transactions):
+    """Проверка генератора при получении корректных данных"""
+    generator = transaction_descriptions(gen_transactions)
+    assert next(generator) == "Перевод организации"
+    assert next(generator) == "Перевод со счета на счет"
+    assert next(generator) == "Покупка в магазине"
+
+
+def test_transaction_descriptions_empty_input():
+    """Проверка функции при отсутсвии транзакции"""
+    generator = transaction_descriptions([])
+    with pytest.raises(StopIteration):
+        next(generator)
+
+
+def test_transaction_descriptions_missing_key():
+    """Проверка обработки транзакций без ключа 'description'"""
+    transactions = [
+        {"id": 1, "operationAmount": {"amount": "100.00"}},
+        {"id": 2, "date": "2023-01-01T12:00:00"},
+        {"id": 3},
+    ]
+
+    generator = transaction_descriptions(transactions)
+    assert next(generator) == "Описание отсутствует"
+    assert next(generator) == "Описание отсутствует"
+    assert next(generator) == "Описание отсутствует"
+
+
+@pytest.mark.parametrize(
+    "start,end,expected",
+    [
+        (1, 1, ["0000 0000 0000 0001"]),
+        (1, 3, ["0000 0000 0000 0001", "0000 0000 0000 0002", "0000 0000 0000 0003"]),
+        (
+            9999999999999998,
+            9999999999999999,
+            [
+                "9999 9999 9999 9998",
+                "9999 9999 9999 9999",
+            ],
+        ),
+    ],
+)
+def test_card_number_generator(start, end, expected):
+    """Проверка функции при получение корректных данных"""
+    assert list(card_number_generator(start, end)) == expected
+
+
+def test_card_number_generator_format():
+    """Проверка корректности форматирования вывода вывода"""
+    num = next(card_number_generator(1234567812345678, 1234567812345678))
+    assert num == "1234 5678 1234 5678"
+    assert len(num) == 19
+
+
+def test_card_number_generator_negative_numbers():
+    """Проверка функции если получили отрицательные числа"""
+    with pytest.raises(ValueError):
+        list(card_number_generator(-1, 5))
+
+    with pytest.raises(ValueError):
+        list(card_number_generator(1, -5))
+
+
+def test_card_number_generator_invalid_final_nums():
+    """Проверка если максимальное число превышает диапазон"""
+    with pytest.raises(ValueError):
+        list(card_number_generator(1, 10000000000000000))
+
+
+def test_card_number_generator_invalid_range():
+    """Проверка когда start > end"""
+    with pytest.raises(ValueError):
+        list(card_number_generator(10, 5))
