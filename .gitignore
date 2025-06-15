@@ -173,3 +173,7 @@ cython_debug/
 .cursorignore
 .cursorindexingignore
 .DS_Store
+
+test_log.txt
+tests/test_log.txt
+
