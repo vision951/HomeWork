@@ -27,6 +27,6 @@ def test_load_transactions_invalid_json(mock_file):
 
 @patch("builtins.open", new_callable=mock_open, read_data=json.dumps({"id": 1, "state": "EXECUTED"}))
 def test_load_transactions_not_list(mock_file):
-    """Тест успешной загрузки транзакции из файла"""
+    """Тест загрузки когда получен не список"""
     result = load_transactions("not_a_list.json")
     assert result == []
