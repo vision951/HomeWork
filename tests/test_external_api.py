@@ -28,7 +28,7 @@ def test_convert_transaction_to_rub_usd_success(mock_get):
     mock_response = Mock()
     mock_response.json.return_value = {
         "success": True,
-        "rates": {"RUB": 75.0}
+        "result": 7500.0  # Для /convert
     }
 
     mock_response.raise_for_status.return_value = None

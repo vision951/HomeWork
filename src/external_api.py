@@ -6,7 +6,7 @@ from dotenv import load_dotenv
 load_dotenv()
 
 API_KEY = os.getenv('API_KEY')
-BASE_URL = "https://api.apilayer.com/exchangerates_data/latest"
+BASE_URL = "https://api.apilayer.com/exchangerates_data/convert"
 
 
 def convert_transaction_to_rub(transaction: dict) -> float:
@@ -24,7 +24,7 @@ def convert_transaction_to_rub(transaction: dict) -> float:
             return amount
 
         if currency in ('USD', 'EUR'):
-            params = {'base': currency, 'symbols': 'RUB'}
+            params = {'from': currency, 'to': 'RUB', 'amount': amount}
             headers = {'apikey': API_KEY}
 
             response = requests.get(BASE_URL, params=params, headers=headers, timeout=10)
@@ -34,8 +34,7 @@ def convert_transaction_to_rub(transaction: dict) -> float:
             print("Ответ API:", data)
 
             if data.get('success', False):
-                rate = data['rates']['RUB']
-                return amount * rate
+                return data['result']
 
     except KeyError as e:
         print(f"Ошибка в структуре транзакции: {e}")
