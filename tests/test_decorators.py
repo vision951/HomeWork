@@ -25,7 +25,6 @@ def failing_function_with_file(x, y):
     raise TypeError("Type error occurred")
 
 
-
 def test_successful_function(capsys):
     """Проверка успешного выполнения функции с логированием в консоль"""
     successful_function(2, 3)

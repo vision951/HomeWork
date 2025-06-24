@@ -1,5 +1,4 @@
-import pytest
-from unittest.mock import patch, Mock
+from unittest.mock import Mock, patch
 
 from src.external_api import convert_transaction_to_rub
 
@@ -54,7 +53,7 @@ def test_convert_transaction_to_rub_api_invalid(mock_get):
 
 def test_convert_transaction_to_invalid_structure():
     """Тест обработки неверной структуры транзакции"""
-    transaction = {"invalid" : "structure"}
+    transaction = {"invalid": "structure"}
     result = convert_transaction_to_rub(transaction)
     assert result == 0.0
 
@@ -76,4 +75,3 @@ def test_convert_transaction_empty():
     transaction = {}
     result = convert_transaction_to_rub(transaction)
     assert result == 0.0
-
